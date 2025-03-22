@@ -1,0 +1,15 @@
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+td {
+    width: 30px;
+    height: 30px;
+    border: 1px solid black;
+}
+.empty {
+    background-color: lightblue; /* Agua */
+}
+.ocupada {
+    background-color: gray; /* Barco */
+}
