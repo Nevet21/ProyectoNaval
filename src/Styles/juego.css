@@ -1,3 +1,22 @@
+#contenedorTableros{
+    width: 500px;
+    display: flex;
+    justify-content: space-between;
+
+}
+.tablero{
+    width: 200px;
+    height: 200px;
+    display: flex;
+    flex-wrap:wrap ;
+
+
+}
+.bloque {
+    width: var(--bloque-size);
+    height: var(--bloque-size);
+    box-sizing: border-box;
+}
 .opcionBarco{
     width: 500px;
     height:  50px;
