@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Js BATTLEships</title>
+    <script src="../Controllers/app.js"></script>
+    <link rel="stylesheet" href="../Styles/juego.css">
+</head>
+<body>
+    <!-- informacion del juego -->
+    <div id="game-info">
+        <p>Turn: <span id="turn-display"></span></p>
+        <p>Info: <span id="info"></span></p>
+    </div>
+    <!--Este div se usa para dividir los tableros-->
+    <div id="tableros"></div> 
+
+    <!--Este div sirve para seleccionar los barcos-->
+    <div class ="opcionBarco">
+        <div class="destructor-preview destructor" draggable="true"></div> <!--se pone un nombre de clase al destructor y se le asigna una altura color en el css-->
+        <div class="submarino-preview submarino" draggable="true"></div>
+        <div class="crucero-preview crucero" draggable="true"></div>
+        <div class="acorazado-preview acorazado" draggable="true"></div>
+        <div class="portaAviones-preview portaAviones" draggable="true"></div>
+    </div>
+
+    <button id="Iniciar-button">Iniciar</button>
+    <button id="girar-button">Girar</button>
+</body>
+</html>
+<script src="../Controllers/app.js"></script>

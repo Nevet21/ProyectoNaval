@@ -1,0 +1,55 @@
+.opcionBarco{
+    width: 500px;
+    height:  50px;
+    margin: 30px;
+    background-color: yellow;
+    align-items: center; /* alinear los elemento en el centro del div amarillo*/
+    display: flex /* esto sirve para alinear los barcos uno al lado del otro*/
+}
+.destructor{
+    background-color: aqua;
+
+}
+.submarino{
+    background-color: brown;
+
+}
+.acorazado{
+    background-color: blue;
+}
+
+.crucero{
+    background-color: aquamarine;
+
+}
+.portaAviones{
+    background-color: red;
+
+}
+
+.destructor-preview{
+    width: 20px;
+    height: 10px;
+    margin:3px;
+
+}
+.submarino-preview{
+    width: 40px;
+    height: 10px;
+    margin: 3px;
+}
+.crucero-preview{
+    width:  30px;
+    height: 10px;
+    margin: 3px;
+}
+.acorazado-preview{
+    width: 30px;
+    height: 10px;
+    margin: 3px;
+}
+.portaAviones-preview{
+    width: 30px;
+    height: 10px;
+    margin: 3px;
+}
