@@ -15,11 +15,14 @@
                 <input type="name" required>
                 <label for="">Nombre</label>
             </div>
-            <select id="countrySelect">
-                <option value="">Cargando países...</option>
-            </select>
-            
-            <script src="index.js"></script>
+            <div class="selectbox">
+                <select id="countrySelect" required>
+                    <option value="" disabled selected></option> 
+                </select>
+                <label for="countrySelect">Selecciona un país</label>
+            </div>
+                 
+            <script src="../JavaScript/index.js"></script>
             
             <div class="contenedor-botones">
                 <button>Empezar</button>

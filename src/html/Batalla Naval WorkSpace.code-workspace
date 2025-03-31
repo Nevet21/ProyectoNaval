@@ -1,0 +1,13 @@
+{
+	"folders": [
+		{
+			"path": "../../../backend-naval-battle"
+		},
+		{
+			"path": "../.."
+		}
+	],
+	"settings": {
+		"liveServer.settings.multiRootWorkspaceName": "ProyectoNaval"
+	}
+}

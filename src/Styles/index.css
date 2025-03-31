@@ -65,7 +65,7 @@ input:valid ~ label {
     outline: none;
     font-size: 1rem;
     padding: 0 35px 0 5px;
-    color: #fff;
+    color: #000000;
 }
 
 
@@ -120,19 +120,49 @@ button:hover {
     margin-top: 20px; 
 }
 
-.register {
-    font-size: 0.9rem;
-    color: #fff;
-    text-align: center;
-    margin: 25px 0 10px;
+
+
+.selectbox {
+    position: relative;
+    margin: 30px 0;
+    max-width: 310px;
+    border-bottom: 2px solid #fff;
 }
 
-.register p a {
-    text-decoration: none;
+.selectbox label {
+    position: absolute;
+    top: 50%;
+    left: 5px;
+    transform: translateY(-50%);
     color: #fff;
-    font-weight: 600;
+    font-size: 1rem;
+    pointer-events: none;
+    transition: all 0.5s ease-in-out;
 }
 
-.register p a:hover {
-    text-decoration: underline;
+#countrySelect {
+    width: 100%;
+    height: 60px;
+    background: transparent;
+    border: none;
+    outline: none;
+    font-size: 1rem;
+    padding: 0 35px 0 5px;
+    color: #000000;
+    appearance: none; 
+}
+
+.selectbox select:focus ~ label,
+.selectbox select:valid ~ label {
+    top: -5px;
+}
+
+.selectbox::after {
+    content: '▼';
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    color: #eee0e0;
+    pointer-events: none;
 }
