@@ -82,7 +82,7 @@ function añadirBarco(barco){
         }
         
     }
-
+        
     bloquesBarco.forEach(bloqueBarco=> {
         bloqueBarco.classList.add(barco.nombre)
         bloqueBarco.classList.add('token')

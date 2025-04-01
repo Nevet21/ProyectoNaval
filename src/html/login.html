@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prueba</title>
+    <Link rel="stylesheet" href="../Styles/index.css">
+</head>
+<body>
+    <section>
+        <form>
+            <h1>Ingreso</h1>
+            <div class="inputbox">              
+                <ion-icon name="person-outline"></ion-icon>
+                <input type="text" id="username" required>
+                <label for="username">Nombre</label>
+            </div>
+            <div class="selectbox">
+                <select id="countrySelect" required>
+                    <option value="" disabled selected></option> 
+                </select>
+                <label for="countrySelect">Selecciona un país</label>
+            </div>
+                       
+            <div class="contenedor-botones">
+                <button type="submit" id="start-btn">Empezar</button>
+                <button type="button" id="register-btn">Registrarse</button>
+            </div> 
+            
+             <script src="../JavaScript/api/countryAPI.js"></script>  
+             <script src="../JavaScript/models/login.js"></script> 
+
+        </form>
+    </section>    
+</body>
+</html>
