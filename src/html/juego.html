@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Js BATTLEships</title>
-    <script src="../Controllers/app.js"></script>
+    <script src="../JavaScript/app.js"></script>
     <link rel="stylesheet" href="../Styles/juego.css">
 </head>
 <body>
@@ -18,11 +18,11 @@
 
     <!--Este div sirve para seleccionar los barcos-->
     <div class ="opcionBarco">
-        <div class="destructor-preview destructor" draggable="true"></div> <!--se pone un nombre de clase al destructor y se le asigna una altura color en el css-->
-        <div class="submarino-preview submarino" draggable="true"></div>
-        <div class="crucero-preview crucero" draggable="true"></div>
-        <div class="acorazado-preview acorazado" draggable="true"></div>
-        <div class="portaAviones-preview portaAviones" draggable="true"></div>
+        <div id="0" class="destructor-preview destructor" data-nombre="destructor" draggable="true"></div> <!--se pone un nombre de clase al destructor y se le asigna una altura color en el css-->
+        <div id="1" class="submarino-preview submarino" data-nombre="submarino" draggable="true"></div>
+        <div id="2" class="crucero-preview crucero" data-nombre="crucero" draggable="true"></div>
+        <div id="3" class="acorazado-preview acorazado" data-nombre="acorazado" draggable="true"></div>
+        <div id="4" class="portaAviones-preview portaAviones" data-nombre="portaAviones" draggable="true"></div>
     </div>
 
     <button id="Iniciar-button">Iniciar</button>
