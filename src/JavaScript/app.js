@@ -5,6 +5,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const starButoon= document.querySelector('#Iniciar-button');
     const info = document.querySelector('#info')
     const turnDysplay=document.querySelector('#turn-display')
+    const exportar=document.querySelector('#Exportar-mapa')
 
     let angle=0
     function girar(){
@@ -40,8 +41,9 @@ document.addEventListener("DOMContentLoaded", function () {
                 bloque.id = i;
                 tablero.append(bloque);
             }
-        
+          
             contenedorTablero.append(tablero);
+            
         }
         
     crearTablero('yellow', 'player')
@@ -123,6 +125,7 @@ document.addEventListener("DOMContentLoaded", function () {
             if (user=== 'player') notDropped = true
         }
         
+       
             
     }
 
@@ -142,7 +145,6 @@ document.addEventListener("DOMContentLoaded", function () {
         function dragStart(e) {
             notDropped = false;
             barcoMovido = e.target;
-            console.log(barcoMovido);
         }
         
 
@@ -165,13 +167,14 @@ function highlightArea(startIndex, barco){
     const bloques=document.querySelectorAll('#player div')
     let isHorizontal = angle ===0
 
-    const {bloquesBarco,valid,notTaken}=verificarValido(bloques, isHorizontal,startIndex,barco )
+    const {bloquesJugador,valid,notTaken}=verificarValido(bloques, isHorizontal,startIndex,barco )
     if(valid && notTaken){
-        bloquesBarco.forEach(bloqueBarco=>{
-            bloques.classList.add('hover')
-            setTimeout(()=> bloqueBarco.classList.remove('hover'), 500)
+        bloquesJugador.forEach(bloqueJugador=>{
+            bloqueJugador.classList.add('hover')
+            setTimeout(()=> bloqueJugador.classList.remove('hover'), 500)
         })
     }
+    
     }
 let gameOver=false
 let playerTuurn
@@ -210,7 +213,7 @@ function handleClick(e){
             classes=classes.filter(className => className !== 'boom')
             classes=classes.filter(className => className !== 'taken')
             playerHits.push(...classes)
-            console.log(playerHits)
+            
             checkScore('player', playerHits, playerSunkShips)
 
         }
@@ -218,11 +221,16 @@ function handleClick(e){
             info.textContent= 'No hubo impacto!!'
             e.target.classList.add('empty')
         }
-
+        
         playerTuurn=false
         const bloquesTablero= document.querySelectorAll('#computer div')
+        //generarMapaComputadora(bloquesTablero)
         bloquesTablero.forEach(bloque=>bloque.replaceWith(bloque.cloneNode(true)))
+        
         setTimeout(computerGo, 3000)
+
+        
+        
     }
 
 }
@@ -237,8 +245,10 @@ function computerGo(){
             let randomGoo=Math.floor(Math.random()*tamaño*tamaño)
             const bloquesTablero=document.querySelectorAll('#player div')
             if (bloquesTablero[randomGoo].classList.contains('taken') &&
-            bloquesTablero[randomGoo].classList.contains('taken') )
-        {
+            bloquesTablero[randomGoo].classList.contains('boom') )
+            
+            
+            {
             computerGo()
             return    
             } else if(
@@ -258,11 +268,13 @@ function computerGo(){
                 bloquesTablero[randomGoo].classList.add('empty')
 
             }
+            //generarMapaJugador(bloquesTablero)
+
         },  3000)
         setTimeout(()=>{
             playerTuurn= true
             turnDysplay.textContent = ' tu turno'
-            info.textContent= 'please teake your go'
+            info.textContent= 'Arroja tu bomba en un barco'
             const bloquesBarco = document.querySelectorAll('#computer div')
             bloquesBarco.forEach(bloque=> bloque.addEventListener('click', handleClick))
         },  6000)
@@ -289,8 +301,6 @@ function checkScore(user,userHits,userSunkShips){
     checkShip('acorazado',4)
     checkShip('portaAviones',5)
 
-    console.log('playeraHits',playerHits )
-    console.log('playerSunkSHIPS',playerSunkShips )
 
 
 
@@ -307,6 +317,88 @@ function checkScore(user,userHits,userSunkShips){
 
     
 }
+
+function generarMapaJugador(){
+    mapa=[]
+    let arreglo = [];
+    let i = 0;
+    
+    const bloquesJugador=document.querySelectorAll('#player div')
+    bloquesJugador.forEach(bloque=> {
+        if (bloque.classList.contains('taken') && (bloque.classList.contains('boom'))) {
+            arreglo.push("p1-h")
+        }
+        else if (bloque.classList.contains('taken')) {
+            arreglo.push("p1")
+        }else if (bloque.classList.contains('empty')) {
+            arreglo.push("b")
+        }
+        else{
+            arreglo.push("a")
+        }
+
+        if (arreglo.length===tamaño ) {
+            mapa.push(arreglo)
+            arreglo=[]
+        }
+    })
+
+    const contenido = JSON.stringify(mapa, null, 2);
+    const blob = new Blob([contenido], { type: "application/json" });
+
+    const enlace = document.createElement("a");
+    enlace.href = URL.createObjectURL(blob);
+    enlace.download = "mapa.json";
+
+    enlace.click();
+    URL.revokeObjectURL(enlace.href);
+
+    
+    
+console.log("mapa jugador: ",mapa)
+}
+
+function generarMapaComputadora(){
+    mapa=[]
+    let arreglo = [];
+    let i = 0;
+    const bloquesComputadora=document.querySelectorAll('#computer div')
+
+    bloquesComputadora.forEach(bloque=> {
+        if (bloque.classList.contains('taken') && (bloque.classList.contains('boom'))) {
+            arreglo.push("p2-h")
+        }
+        else if (bloque.classList.contains('taken')) {
+            arreglo.push("p2")
+        }else if (bloque.classList.contains('empty')) {
+            arreglo.push("b")
+        }
+        else{
+            arreglo.push("a")
+        }
+
+        if (arreglo.length===tamaño ) {
+            mapa.push(arreglo)
+            arreglo=[]
+        }
+    })
+    const contenido = JSON.stringify(mapa, null, 2);
+    const blob = new Blob([contenido], { type: "application/json" });
+
+    const enlace = document.createElement("a");
+    enlace.href = URL.createObjectURL(blob);
+    enlace.download = "mapa.json";
+
+    enlace.click();
+    URL.revokeObjectURL(enlace.href);
+
+
+    console.log("mapa computadora: ",mapa)
+}
+exportar.addEventListener('click',generarMapaComputadora)
+exportar.addEventListener('click',generarMapaJugador)
+
+
 
  //fin   
 })  
