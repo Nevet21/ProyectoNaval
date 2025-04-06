@@ -41,7 +41,6 @@ document.addEventListener("DOMContentLoaded", function () {
                 bloque.id = i;
                 tablero.append(bloque);
             }
-          
             contenedorTablero.append(tablero);
             
         }
@@ -125,7 +124,6 @@ document.addEventListener("DOMContentLoaded", function () {
             if (user=== 'player') notDropped = true
         }
         
-       
             
     }
 
@@ -203,83 +201,92 @@ let playerHits=[]
 const playerSunkShips=[]
 const computerunkShips=[]
 
-function handleClick(e){
-    if (!gameOver) {
-        if(e.target.classList.contains('taken')){
-            e.target.classList.add('boom')
-            info.textContent = 'has  impactado la computadora!!'
-            let classes=Array.from(e.target.classList)
-            classes=classes.filter(className => className !== 'bloque')
-            classes=classes.filter(className => className !== 'boom')
-            classes=classes.filter(className => className !== 'taken')
-            playerHits.push(...classes)
-            
-            checkScore('player', playerHits, playerSunkShips)
+function handleClick(e) {
+    if (!gameOver && playerTuurn) {
+        const target = e.target;
 
+        if (target.classList.contains('boom') || target.classList.contains('empty')) {
+            return; // Ya se disparó en esta celda
         }
-        if (!e.target.classList.contains('taken')) {
-            info.textContent= 'No hubo impacto!!'
-            e.target.classList.add('empty')
-        }
-        
-        playerTuurn=false
-        const bloquesTablero= document.querySelectorAll('#computer div')
-        //generarMapaComputadora(bloquesTablero)
-        bloquesTablero.forEach(bloque=>bloque.replaceWith(bloque.cloneNode(true)))
-        
-        setTimeout(computerGo, 3000)
 
-        
-        
+        if (target.classList.contains('taken')) {
+            target.classList.add('boom');
+            info.textContent = '¡Has impactado a la computadora!';
+
+            let classes = Array.from(target.classList).filter(
+                className => !['bloque', 'boom', 'taken'].includes(className)
+            );
+            playerHits.push(...classes);
+            checkScore('player', playerHits, playerSunkShips);
+
+            // 🔁 MANTENER TURNO
+            return;
+        } else {
+            info.textContent = '¡No hubo impacto!';
+            target.classList.add('empty');
+
+            // Cambiar turno solo si fue agua
+            playerTuurn = false;
+
+            const bloquesTablero = document.querySelectorAll('#computer div');
+            bloquesTablero.forEach(bloque => bloque.replaceWith(bloque.cloneNode(true)));
+
+            // Esperar y dejar que juegue la computadora
+            setTimeout(computerGo, 3000);
+        }
     }
-
 }
+
 
 //turno computadora
-function computerGo(){
-    if (!gameOver){
-        turnDysplay.textContent='Turno maquina'
-        turnDysplay.textContent = 'Esperando a la maquina'
+function computerGo() {
+    if (!gameOver) {
+        turnDysplay.textContent = 'Turno máquina';
+        info.textContent = 'Esperando a la máquina...';
 
-        setTimeout(()=>{
-            let randomGoo=Math.floor(Math.random()*tamaño*tamaño)
-            const bloquesTablero=document.querySelectorAll('#player div')
-            if (bloquesTablero[randomGoo].classList.contains('taken') &&
-            bloquesTablero[randomGoo].classList.contains('boom') )
-            
-            
-            {
-            computerGo()
-            return    
-            } else if(
-                bloquesTablero[randomGoo].classList.contains('taken') &&
-                !bloquesTablero[randomGoo].classList.contains('boom'))
-            {
-                bloquesTablero[randomGoo].classList.add('boom')
-                info.textContent = 'Has sido impactado por la computadora'
-                let classes=Array.from(bloquesTablero[randomGoo].classList)
-                classes=classes.filter(className => className !== 'bloque')
-                classes=classes.filter(className => className !== 'boom')
-                classes=classes.filter(className => className !== 'taken')
-                computerHits.push(...classes)
-                checkScore('computer',computerHits,computerunkShips)
-            }else {
-                info.textContent='no hubo impacto'
-                bloquesTablero[randomGoo].classList.add('empty')
+        setTimeout(() => {
+            const bloquesTablero = document.querySelectorAll('#player div');
+            let randomGoo = Math.floor(Math.random() * tamaño * tamaño);
+            let celda = bloquesTablero[randomGoo];
 
+            // Si ya fue seleccionada, intentar de nuevo
+            if (celda.classList.contains('boom') || celda.classList.contains('empty')) {
+                computerGo(); // reintenta otra posición
+                return;
             }
-            //generarMapaJugador(bloquesTablero)
 
-        },  3000)
-        setTimeout(()=>{
-            playerTuurn= true
-            turnDysplay.textContent = ' tu turno'
-            info.textContent= 'Arroja tu bomba en un barco'
-            const bloquesBarco = document.querySelectorAll('#computer div')
-            bloquesBarco.forEach(bloque=> bloque.addEventListener('click', handleClick))
-        },  6000)
+            if (celda.classList.contains('taken')) {
+                celda.classList.add('boom');
+                info.textContent = '¡Has sido impactado por la computadora!';
+
+                let classes = Array.from(celda.classList).filter(
+                    className => !['bloque', 'boom', 'taken'].includes(className)
+                );
+                computerHits.push(...classes);
+                checkScore('computer', computerHits, computerunkShips);
+
+                // 💥 Repetir turno si impactó
+                setTimeout(computerGo, 1000);
+                return;
+            } else {
+                celda.classList.add('empty');
+                info.textContent = '¡La computadora falló!';
+            }
+
+            // 🌀 Dar el turno al jugador después de 3 segundos
+            setTimeout(() => {
+                playerTuurn = true;
+                turnDysplay.textContent = 'Tu turno';
+                info.textContent = '¡Arroja tu bomba!';
+                
+                const bloquesBarco = document.querySelectorAll('#computer div');
+                bloquesBarco.forEach(bloque => bloque.addEventListener('click', handleClick));
+            }, 3000);
+
+        }, 1500);
     }
 }
+
 
 function checkScore(user,userHits,userSunkShips){
     function checkShip(shipName,  shipLenght){
@@ -292,6 +299,7 @@ function checkScore(user,userHits,userSunkShips){
                 computerHits= userHits.filter(storedShipName=> storedShipName !== shipName)
             }
             userSunkShips.push(shipName)
+            console.log(userSunkShips)
         }
     }
 
@@ -307,16 +315,23 @@ function checkScore(user,userHits,userSunkShips){
     if(playerSunkShips.length===5){
         info.textContent = 'Has ganado!!!'
         gameOver=true
+
+        const score1 = score()
+        console.log("puntaje: ", score1)
     }
     if(computerunkShips.length===5){
         info.textContent = 'La computadora te ha ganado, PERDISTE!!!'
         gameOver=true
+
+        const score1 = score()
+        console.log("puntaje: ", score1)
     }
 
 
 
     
 }
+
 
 function generarMapaJugador(){
     mapa=[]
@@ -358,45 +373,117 @@ function generarMapaJugador(){
 console.log("mapa jugador: ",mapa)
 }
 
-function generarMapaComputadora(){
-    mapa=[]
+function generarMapaComputadora(event) {
+    let mapa = [];
     let arreglo = [];
-    let i = 0;
-    const bloquesComputadora=document.querySelectorAll('#computer div')
+    const bloquesComputadora = document.querySelectorAll('#computer div');
 
-    bloquesComputadora.forEach(bloque=> {
-        if (bloque.classList.contains('taken') && (bloque.classList.contains('boom'))) {
-            arreglo.push("p2-h")
-        }
-        else if (bloque.classList.contains('taken')) {
-            arreglo.push("p2")
-        }else if (bloque.classList.contains('empty')) {
-            arreglo.push("b")
-        }
-        else{
-            arreglo.push("a")
+    bloquesComputadora.forEach(bloque => {
+        if (bloque.classList.contains('taken') && bloque.classList.contains('boom')) {
+            arreglo.push("p2-h");
+        } else if (bloque.classList.contains('taken')) {
+            arreglo.push("p2");
+        } else if (bloque.classList.contains('empty')) {
+            arreglo.push("b");
+        } else {
+            arreglo.push("a");
         }
 
-        if (arreglo.length===tamaño ) {
-            mapa.push(arreglo)
-            arreglo=[]
+        if (arreglo.length === tamaño) {
+            mapa.push(arreglo);
+            arreglo = [];
         }
-    })
-    const contenido = JSON.stringify(mapa, null, 2);
-    const blob = new Blob([contenido], { type: "application/json" });
+    });
 
-    const enlace = document.createElement("a");
-    enlace.href = URL.createObjectURL(blob);
-    enlace.download = "mapa.json";
+    console.log("mapa computadora: ", mapa);
 
-    enlace.click();
-    URL.revokeObjectURL(enlace.href);
+    // ✅ Solo descargar si fue llamada por el botón exportar
+    if (event?.target?.id === "Exportar-mapa") {
+        const contenido = JSON.stringify(mapa, null, 2);
+        const blob = new Blob([contenido], { type: "application/json" });
 
+        const enlace = document.createElement("a");
+        enlace.href = URL.createObjectURL(blob);
+        enlace.download = "mapa.json";
 
-    console.log("mapa computadora: ",mapa)
+        enlace.click();
+        URL.revokeObjectURL(enlace.href);
+    }
+
+    return mapa
+
+    
+    
 }
+
 exportar.addEventListener('click',generarMapaComputadora)
 exportar.addEventListener('click',generarMapaJugador)
+
+
+
+function score(){
+    let mapa
+    mapa=generarMapaComputadora(null)
+    let score=0;
+
+    for (let i = 0; i < mapa.length; i++) {
+        const fila = mapa[i];
+    
+        for (let j = 0; j < fila.length; j++) {
+            const celda = fila[j];
+    
+            if (celda === "p2-h") {
+                score += 10;
+            } else if (celda === "b") {
+                let penalizado = false;
+    
+                // izquierda y derecha
+                if (
+                    (j > 0 && ["p2", "p2-h"].includes(fila[j - 1])) ||
+                    (j < fila.length - 1 && ["p2", "p2-h"].includes(fila[j + 1]))
+                ) {
+                    score -= 3;
+                    penalizado = true;
+                }
+    
+                // abajo
+                if (!penalizado && i < mapa.length - 1) {
+                    const abajo = mapa[i + 1];
+                    if (
+                        (j > 0 && ["p2", "p2-h"].includes(abajo[j - 1])) ||
+                        ["p2", "p2-h"].includes(abajo[j]) ||
+                        (j < abajo.length - 1 && ["p2", "p2-h"].includes(abajo[j + 1]))
+                    ) {
+                        score -= 3;
+                        penalizado = true;
+                    }
+                }
+    
+                // arriba
+                if (!penalizado && i > 0) {
+                    const arriba = mapa[i - 1];
+                    if (
+                        (j > 0 && ["p2", "p2-h"].includes(arriba[j - 1])) ||
+                        ["p2", "p2-h"].includes(arriba[j]) ||
+                        (j < arriba.length - 1 && ["p2", "p2-h"].includes(arriba[j + 1]))
+                    ) {
+                        score -= 3;
+                        penalizado = true;
+                    }
+                }
+    
+                // si no hay nada cerca
+                if (!penalizado) {
+                    score -= 1;
+                }
+            }
+        }
+    }
+    console.log("generar mapa :",mapa)
+    
+    return score
+}
+
 
 
 
