@@ -8,41 +8,32 @@
   <script src="../JavaScript/app.js" defer></script>
 </head>
 <script>
-    document.addEventListener("DOMContentLoaded", async () => {
-        const usernameKey = localStorage.getItem("currentUser");
-        const userData = JSON.parse(localStorage.getItem(usernameKey));
-    
-        if (!userData) {
-            window.location.href = "../html/index.html";
-            return;
-        }
-    
-        const { username, country } = userData;
-    
-        document.getElementById("jugador").textContent = `Jugador: ${username}`;
-        document.getElementById("pais").textContent = `País: ${country}`;
-    
-        try {
-            const response = await fetch("http://127.0.0.1:5000/countries");
-            const countries = await response.json();
-            const codeObj = countries.find(obj => Object.values(obj)[0] === country);
-            if (!codeObj) return;
-    
-            const countryCode = Object.keys(codeObj)[0].toUpperCase()
-            const flagUrl = `https://flagsapi.com`;
-    
-            const img = document.createElement("img");
-            img.src = flagUrl;
-            img.alt = country;
-            img.style.height = "40px";
-            img.style.marginLeft = "10px";
-    
-            document.querySelector(".info-user").appendChild(img);
-        } catch (err) {
-            console.error("Error cargando la bandera:", err);
-        }
-    });
-    </script>
+  document.addEventListener("DOMContentLoaded", () => {
+      const usernameKey = localStorage.getItem("currentUser");
+      const userData = JSON.parse(localStorage.getItem(usernameKey));
+  
+      if (!userData) {
+          window.location.href = "../html/index.html";
+          return;
+      }
+  
+      const { username, country } = userData;
+  
+      document.getElementById("jugador").textContent = `Jugador: ${username}`;
+      document.getElementById("pais").textContent = `País: ${country.toUpperCase()}`;
+  
+      const flagUrl = `https://flagsapi.com/${country.toUpperCase()}/flat/64.png`;
+  
+      const img = document.createElement("img");
+      img.src = flagUrl;
+      img.alt = `Bandera de ${country}`;
+      img.style.height = "40px";
+      img.style.marginLeft = "10px";
+  
+      document.querySelector(".info-user").appendChild(img);
+  });
+  </script>
+  
     
 <body>
   <header>
