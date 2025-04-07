@@ -6,6 +6,8 @@ document.addEventListener("DOMContentLoaded", function () {
     const info = document.querySelector('#info')
     const turnDysplay=document.querySelector('#turn-display')
     const exportar=document.querySelector('#Exportar-mapa')
+    const inputTamaño=document.querySelector('#tamaño');
+    const btnCrearTablero = document.querySelector('#crearTableroBtn');
     
     let angle=0
     function girar(){
@@ -19,9 +21,10 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     
         botonGirar.addEventListener("click", girar)
-    
-        let tamaño = 10;
-        const tableroSize = 300;
+
+        
+let tamaño = 10
+const tableroSize = 300;
         
     function crearTablero(color, user) {
             const tablero = document.createElement('div');
@@ -34,6 +37,11 @@ document.addEventListener("DOMContentLoaded", function () {
         
             // Establecer la variable CSS en el tablero
             tablero.style.setProperty('--bloque-size', bloqueSize);
+
+             // Establecer propiedades de grid
+            tablero.style.display = "grid";
+            tablero.style.gridTemplateColumns = `repeat(${tamaño}, var(--bloque-size))`;
+            tablero.style.gridTemplateRows = `repeat(${tamaño}, var(--bloque-size))`;
         
             for (let i = 0; i < tamaño * tamaño; i++) {
                 const bloque = document.createElement('div');
@@ -42,11 +50,20 @@ document.addEventListener("DOMContentLoaded", function () {
                 tablero.append(bloque);
             }
             contenedorTablero.append(tablero);
+
+            
             
         }
         
-    crearTablero('gray', 'player')
-    crearTablero('gray',   'computer')
+            crearTablero('gray', 'player');
+            crearTablero('gray', 'computer') // podés ajustar el color y el ID según tu juego
+        
+        
+
+        
+        
+        
+
     
     // crear barcos
     
@@ -149,7 +166,7 @@ document.addEventListener("DOMContentLoaded", function () {
     function dragOver(e){
         e.preventDefault()
         const barco =barcos[barcoMovido.id]
-        highlightArea(e.target.id, barco)
+        
     }
 
     function dropShip(e){
@@ -161,19 +178,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
-function highlightArea(startIndex, barco){
-    const bloques=document.querySelectorAll('#player div')
-    let isHorizontal = angle ===0
 
-    const {bloquesJugador, valid, notTaken} = verificarValido(bloques, startIndex, barco, isHorizontal)
-    if(valid && notTaken){
-        bloquesJugador.forEach(bloqueJugador=>{
-            bloqueJugador.classList.add('hover')
-            setTimeout(()=> bloqueJugador.classList.remove('hover'), 500)
-        })
-    }
-    
-    }
 let gameOver=false
 let playerTuurn
 
