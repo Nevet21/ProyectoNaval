@@ -1,95 +1,135 @@
-#contenedorTableros{
-    width: 500px;
-    display: flex;
-    justify-content: space-between;
-
-}
-.tablero{
-    width: 200px;
-    height: 200px;
-    display: flex;
-    flex-wrap:wrap ;
-
-
-}
-.bloque {
-    width: var(--bloque-size);
-    height: var(--bloque-size);
+/* Reset básico */
+* {
     box-sizing: border-box;
-}
-.opcionBarco{
-    width: 500px;
-    height:  50px;
+    margin: 0;
+    padding: 0;
+  }
+  
+  /* Fondo marino */
+  body {
+    font-family: 'Segoe UI', sans-serif;
+    background: url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1950&q=80') no-repeat center center fixed;
+    background-size: cover;
+    color: #fff;
+    padding-bottom: 40px;
+  }
+  
+  header {
+    background-color: rgba(0, 48, 73, 0.9);
+    padding: 20px;
+    text-align: center;
+  }
+  
+  h1 {
+    margin: 0;
+    font-size: 2.8rem;
+    color: #00c2ff;
+  }
+  
+  /* Información del juego */
+  .info-section {
+    background-color: rgba(0, 48, 73, 0.8);
+    margin: 20px auto;
+    padding: 15px;
+    width: 60%;
+    text-align: center;
+    border-radius: 10px;
+    font-size: 1.2rem;
+  }
+  
+  /* Contenedor de tableros */
+  #contenedorTableros {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    flex-wrap: wrap;
+    margin: 30px auto;
+  }
+  
+  /* Cada tablero */
+  .tablero {
+    display: grid;
+    grid-template-columns: repeat(10, 30px);
+    grid-template-rows: repeat(10, 30px);
+    gap: 2px;
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 10px;
+    border: 3px solid #00c2ff;
+    border-radius: 10px;
+  }
+  
+  /* Cada celda */
+  .celda {
+    width: 30px;
+    height: 30px;
+    background-color: rgba(0, 108, 165, 0.8);
+    border: 1px solid #fff;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+  }
+  
+  .celda:hover {
+    background-color: rgba(0, 140, 210, 0.9);
+    cursor: pointer;
+  }
+  
+  /* Barcos arrastrables */
+  .opcionBarco {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin: 20px;
+  }
+  
+  .opcionBarco div {
+    width: 60px;
+    height: 30px;
+    background-color: rgba(0, 120, 160, 0.9);
+    border: 2px solid #fff;
+    border-radius: 5px;
+    cursor: grab;
+  }
+  
+  /* Botones */
+  .controls {
+    text-align: center;
     margin: 30px;
-    background-color: yellow;
-    align-items: center; /* alinear los elemento en el centro del div amarillo*/
-    display: flex /* esto sirve para alinear los barcos uno al lado del otro*/
-}
-.destructor{
-    background-color: aqua;
+  }
+  
+  .controls button {
+    background-color: #0077aa;
+    border: none;
+    padding: 12px 24px;
+    margin: 5px;
+    font-size: 16px;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+    transition: background-color 0.3s;
+  }
+  
+  .controls button:hover {
+    background-color: #0099dd;
+  }
+  
+  /* Estilos para barcos específicos (colores distintos) */
+  .destructor { background-color: #005f73; }
+  .submarino { background-color: #0a9396; }
+  .crucero { background-color: #94d2bd; }
+  .acorazado { background-color: #ee9b00; }
+  .portaAviones { background-color: #ca6702; }
 
-}
-.submarino{ 
-    background-color: brown;
-
-}
-.acorazado{
-    background-color: blue;
-}
-
-.crucero{
-    background-color: aquamarine;
-
-}
-.portaAviones{
-    background-color: red;
-
-}
-
-.destructor-preview{
-    width: 20px;
-    height: 10px;
-    margin:3px;
-
-}
-.submarino-preview{
-    width: 40px;
-    height: 10px;
-    margin: 3px;
-}
-.crucero-preview{
-    width:  30px;
-    height: 10px;
-    margin: 3px;
-}
-.acorazado-preview{
+  .celda {
     width: 30px;
-    height: 10px;
-    margin: 3px;
-}
-.portaAviones-preview{
-    width: 30px;
-    height: 10px;
-    margin: 3px;
-}
-
-.hover {
-    background-color: red;
-}
-
-#computer .destructor,
-#computer .submarino,
-#computer .acorazado,
-#computer .crucero,
-#computer .portaAviones {
-    background-color: pink;
-}
-
-
-.empty{
-    background-color: grey !important;
-}
-
-.boom{
-    background-color: white   !important;
-}
+    height: 30px;
+    background-color: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.7);
+    border-radius: 2px;
+    transition: background-color 0.3s;
+  }
+  
+  .celda:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    cursor: pointer;
+  }

@@ -165,7 +165,7 @@ function highlightArea(startIndex, barco){
     const bloques=document.querySelectorAll('#player div')
     let isHorizontal = angle ===0
 
-    const {bloquesJugador,valid,notTaken}=verificarValido(bloques, isHorizontal,startIndex,barco )
+    const {bloquesJugador, valid, notTaken} = verificarValido(bloques, startIndex, barco, isHorizontal)
     if(valid && notTaken){
         bloquesJugador.forEach(bloqueJugador=>{
             bloqueJugador.classList.add('hover')
