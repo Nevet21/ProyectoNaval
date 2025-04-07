@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", () => {
             window.location.href = "../html/juego.html";
         } else {
             alert("Usuario no registrado. Por favor, regístrese primero.");
-        }
+        }   
     });
 
     registerBtn.addEventListener("click", () => {

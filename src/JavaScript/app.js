@@ -31,14 +31,10 @@ const tableroSize = 300;
             tablero.classList.add('tablero');
             tablero.style.backgroundColor = color;
             tablero.id = user;
-        
-            // Calcular el tamaño de los bloques
             const bloqueSize = `${tableroSize / tamaño}px`;
         
             // Establecer la variable CSS en el tablero
             tablero.style.setProperty('--bloque-size', bloqueSize);
-
-             // Establecer propiedades de grid
             tablero.style.display = "grid";
             tablero.style.gridTemplateColumns = `repeat(${tamaño}, var(--bloque-size))`;
             tablero.style.gridTemplateRows = `repeat(${tamaño}, var(--bloque-size))`;
@@ -56,14 +52,8 @@ const tableroSize = 300;
         }
         
             crearTablero('gray', 'player');
-            crearTablero('gray', 'computer') // podés ajustar el color y el ID según tu juego
+            crearTablero('gray', 'computer');
         
-        
-
-        
-        
-        
-
     
     // crear barcos
     

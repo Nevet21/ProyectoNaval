@@ -5,7 +5,6 @@
     padding: 0;
   }
   
-  /* Fondo marino */
   body {
     font-family: 'Segoe UI', sans-serif;
     background: url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1950&q=80') no-repeat center center fixed;
@@ -98,7 +97,14 @@
   .crucero { background-color: #94d2bd; }
   .acorazado { background-color: #ee9b00; }
   .portaAviones { background-color: #ca6702; }
-
+  #computer .destructor,
+  #computer .submarino,
+  #computer .crucero,
+  #computer .acorazado,
+  #computer .portaAviones {
+    background: transparent;
+  }
+  
 
 
   .bloque {
@@ -158,5 +164,95 @@
     }
   }
   
-  
+  .info-user {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    padding: 6px 12px;
+    background-color: #e6e1d4;
+    border-radius: 10px;
+    margin: 10px auto 0;
+    width: fit-content;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+
+.info-user p {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 500;
+  color: #333;
+}
+
+#jugador {
+  font-size: 18px;
+  font-weight: bold;
+  color: #0077cc;
+}
+
+#pais {
+  font-size: 16px;
+  font-style: italic;
+  color: #555;
+}
+#clima-container {
+  display: flex;
+  justify-content: center;
+  margin: 30px 0;
+}
+
+#clima {
+  background: linear-gradient(145deg, #ffffff, #f1f1f1);
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  padding: 20px 25px;
+  max-width: 350px;
+  width: 100%;
+  text-align: center;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+#clima input[type="text"] {
+  width: 100%;
+  padding: 10px 12px;
+  margin-bottom: 12px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  font-size: 14px;
+  box-sizing: border-box;
+  outline: none;
+  transition: border 0.3s;
+}
+
+#clima input[type="text"]:focus {
+  border-color: #0077ff;
+}
+
+#clima button {
+  background-color: #0077ff;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  padding: 10px 16px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 14px;
+  transition: background-color 0.3s ease;
+}
+
+#clima button:hover {
+  background-color: #005fd4;
+}
+
+#datosClima {
+  margin-top: 16px;
+  font-size: 14px;
+  color: #333;
+}
+
+#datosClima img {
+  width: 60px;
+  height: 60px;
+}
+
     

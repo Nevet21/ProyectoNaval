@@ -6,8 +6,9 @@
   <title>Js BATTLEships</title>
   <link rel="stylesheet" href="../Styles/juego.css" />
   <script src="../JavaScript/app.js" defer></script>
+  <script src="../JavaScript/api/weatherAPI.js" defer></script>
 </head>
-<script>
+ <script>
   document.addEventListener("DOMContentLoaded", () => {
       const usernameKey = localStorage.getItem("currentUser");
       const userData = JSON.parse(localStorage.getItem(usernameKey));
@@ -32,9 +33,24 @@
   
       document.querySelector(".info-user").appendChild(img);
   });
-  </script>
-  
-    
+  document.getElementById("buscarClima").addEventListener("click", async () => {
+        const ciudad = document.getElementById("ciudadInput").value;
+        const apiKey = "2927f80039f5d07fcfab4c206461937e";
+        const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${ciudad}&appid=${apiKey}&units=metric&lang=es`);
+        const data = await response.json();
+
+        const iconUrl = `https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`;
+
+        document.getElementById("datosClima").innerHTML = `
+          <h3>Clima en ${data.name}</h3>
+          <img src="${iconUrl}" alt="icono clima" />
+          <p>${data.weather[0].description}</p>
+          <p>Temperatura: ${data.main.temp} °C</p>
+          <p>Humedad: ${data.main.humidity}%</p>
+          <p>Viento: ${data.wind.speed} m/s</p>
+        `;
+      });
+ </script>
 <body>
   <header>
     <h1>Batalla Naval</h1>
@@ -51,6 +67,14 @@
     </section>
 
     <section id="contenedorTableros"></section>
+
+    <div id="clima-container">
+      <section id="clima">
+        <input type="text" id="ciudadInput" placeholder="¡Ingresa ciudad donde pelearás!" />
+        <button id="buscarClima">Buscar Clima</button>
+        <div id="datosClima"></div>
+      </section>
+    </div>
 
     <section class="opcionBarco">
       <div id="0" class="destructor-preview destructor" data-nombre="destructor" draggable="true"></div>
