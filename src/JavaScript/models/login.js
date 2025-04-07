@@ -1,8 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
     const loginForm = document.getElementById("login-form");
-    const startBtn = document.getElementById("start-btn");
     const registerBtn = document.getElementById("register-btn");
-
+    const starButton = document.getElementById("start-btn")
     loginForm.addEventListener("submit", (event) => {
         event.preventDefault();
         const username = document.getElementById("username").value.trim();
@@ -17,11 +16,9 @@ document.addEventListener("DOMContentLoaded", () => {
         const storedUser = localStorage.getItem(username);
 
         if (storedUser) {
-
-            localStorage.setItem("currentUser", username);
-            window.location.href = "../index.html"; // Ir a la partida
+           localStorage.setItem("currentUser", username);
+            window.location.href = "../html/juego.html";
         } else {
-
             alert("Usuario no registrado. Por favor, regístrese primero.");
         }
     });

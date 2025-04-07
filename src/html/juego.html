@@ -7,9 +7,50 @@
   <link rel="stylesheet" href="../Styles/juego.css" />
   <script src="../JavaScript/app.js" defer></script>
 </head>
+<script>
+    document.addEventListener("DOMContentLoaded", async () => {
+        const usernameKey = localStorage.getItem("currentUser");
+        const userData = JSON.parse(localStorage.getItem(usernameKey));
+    
+        if (!userData) {
+            window.location.href = "../html/index.html";
+            return;
+        }
+    
+        const { username, country } = userData;
+    
+        document.getElementById("jugador").textContent = `Jugador: ${username}`;
+        document.getElementById("pais").textContent = `País: ${country}`;
+    
+        try {
+            const response = await fetch("http://127.0.0.1:5000/countries");
+            const countries = await response.json();
+            const codeObj = countries.find(obj => Object.values(obj)[0] === country);
+            if (!codeObj) return;
+    
+            const countryCode = Object.keys(codeObj)[0].toUpperCase()
+            const flagUrl = `https://flagsapi.com`;
+    
+            const img = document.createElement("img");
+            img.src = flagUrl;
+            img.alt = country;
+            img.style.height = "40px";
+            img.style.marginLeft = "10px";
+    
+            document.querySelector(".info-user").appendChild(img);
+        } catch (err) {
+            console.error("Error cargando la bandera:", err);
+        }
+    });
+    </script>
+    
 <body>
   <header>
     <h1>Batalla Naval</h1>
+    <section class="info-user">
+        <p> <span id="jugador"></span></p>
+        <p> <span id="pais"></span></p>
+    </section>
   </header>
 
   <main>
@@ -29,10 +70,11 @@
     </section>
 
     <section class="controls">
-      <button id="Iniciar-button">Iniciar</button>
-      <button id="girar-button">Girar</button>
-      <button id="Exportar-mapa">Exportar</button>
+     <button id="Iniciar-button">Iniciar</button>
+     <button id="girar-button">Girar</button>
+     <button id="Exportar-mapa">Exportar</button>
     </section>
+      </script>     
   </main>
 </body>
 </html>

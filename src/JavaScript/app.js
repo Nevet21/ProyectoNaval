@@ -6,11 +6,11 @@ document.addEventListener("DOMContentLoaded", function () {
     const info = document.querySelector('#info')
     const turnDysplay=document.querySelector('#turn-display')
     const exportar=document.querySelector('#Exportar-mapa')
-
+    
     let angle=0
     function girar(){
     const opcionBarcos=(Array.from(contenedorBarco.children)) //se obtienen los barcos y se guarda en un arreglo
-        if (angle===0){ //girar los barcos dado el angulo, si es 90 a o si es 0 a 90
+        if (angle===0){ //girar los barcos dado el angulo, si es 90 a 0 & si es 0 a 90
             angle=90
         } else{
             angle=0
@@ -21,7 +21,7 @@ document.addEventListener("DOMContentLoaded", function () {
         botonGirar.addEventListener("click", girar)
     
         let tamaño = 10;
-        const tableroSize = 200; // Tamaño fijo del tablero en píxeles
+        const tableroSize = 300;
         
     function crearTablero(color, user) {
             const tablero = document.createElement('div');
@@ -45,8 +45,8 @@ document.addEventListener("DOMContentLoaded", function () {
             
         }
         
-    crearTablero('yellow', 'player')
-    crearTablero('pink',   'computer')
+    crearTablero('gray', 'player')
+    crearTablero('gray',   'computer')
     
     // crear barcos
     
@@ -189,7 +189,7 @@ if (playerTuurn === undefined) {
         BloquesTablero.forEach(bloque=> bloque.addEventListener('click', handleClick))
         playerTuurn=true
         turnDysplay.textContent= 'Tu turno'
-        info.textContent='Empieza la batalla!!!'
+        info.textContent='¡Empieza la batalla!'
     }
 
 }
@@ -211,6 +211,7 @@ function handleClick(e) {
 
         if (target.classList.contains('taken')) {
             target.classList.add('boom');
+            target.classList.add('impacto');
             info.textContent = '¡Has impactado a la computadora!';
 
             let classes = Array.from(target.classList).filter(
@@ -219,11 +220,11 @@ function handleClick(e) {
             playerHits.push(...classes);
             checkScore('player', playerHits, playerSunkShips);
 
-            // 🔁 MANTENER TURNO
             return;
         } else {
             info.textContent = '¡No hubo impacto!';
             target.classList.add('empty');
+            
 
             // Cambiar turno solo si fue agua
             playerTuurn = false;
@@ -232,7 +233,7 @@ function handleClick(e) {
             bloquesTablero.forEach(bloque => bloque.replaceWith(bloque.cloneNode(true)));
 
             // Esperar y dejar que juegue la computadora
-            setTimeout(computerGo, 3000);
+            setTimeout(computerGo, 2000);
         }
     }
 }
@@ -265,7 +266,6 @@ function computerGo() {
                 computerHits.push(...classes);
                 checkScore('computer', computerHits, computerunkShips);
 
-                // 💥 Repetir turno si impactó
                 setTimeout(computerGo, 1000);
                 return;
             } else {
@@ -273,7 +273,6 @@ function computerGo() {
                 info.textContent = '¡La computadora falló!';
             }
 
-            // 🌀 Dar el turno al jugador después de 3 segundos
             setTimeout(() => {
                 playerTuurn = true;
                 turnDysplay.textContent = 'Tu turno';
@@ -281,7 +280,7 @@ function computerGo() {
                 
                 const bloquesBarco = document.querySelectorAll('#computer div');
                 bloquesBarco.forEach(bloque => bloque.addEventListener('click', handleClick));
-            }, 3000);
+            }, 2000);
 
         }, 1500);
     }
@@ -291,7 +290,7 @@ function computerGo() {
 function checkScore(user,userHits,userSunkShips){
     function checkShip(shipName,  shipLenght){
         if (userHits.filter(storedShipName => storedShipName === shipName).length === shipLenght) {
-            info.textContent= `you sunk the ${user}s ${shipName}`
+            info.textContent= `Derribaste el ${shipName} enemigo `
             if(user=== 'player'){
                 playerHits=userHits.filter(storedShipName=> storedShipName !== shipName)
             }
@@ -313,23 +312,20 @@ function checkScore(user,userHits,userSunkShips){
 
 
     if(playerSunkShips.length===5){
-        info.textContent = 'Has ganado!!!'
+        info.textContent = '¡Has ganado!'
         gameOver=true
 
         const score1 = score()
         console.log("puntaje: ", score1)
     }
     if(computerunkShips.length===5){
-        info.textContent = 'La computadora te ha ganado, PERDISTE!!!'
+        info.textContent = 'La computadora te ha ganado, ¡PERDISTE!'
         gameOver=true
 
         const score1 = score()
         console.log("puntaje: ", score1)
     }
 
-
-
-    
 }
 
 
@@ -397,7 +393,7 @@ function generarMapaComputadora(event) {
 
     console.log("mapa computadora: ", mapa);
 
-    // ✅ Solo descargar si fue llamada por el botón exportar
+
     if (event?.target?.id === "Exportar-mapa") {
         const contenido = JSON.stringify(mapa, null, 2);
         const blob = new Blob([contenido], { type: "application/json" });
@@ -483,9 +479,5 @@ function score(){
     
     return score
 }
-
-
-
-
- //fin   
 })  
+
